@@ -109,9 +109,11 @@ func main() {
 		}
 
 	})
+
+	log.Printf("Http serve port : %v", conf.Server.Port)
+
 	herr := http.ListenAndServe(":"+strconv.Itoa(conf.Server.Port), nil)
 	if herr != nil {
 		log.Fatalf("Server can't start, %v", herr)
 	}
-	log.Printf("Http serve port : %v", conf.Server.Port)
 }
