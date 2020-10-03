@@ -15,6 +15,10 @@ import (
 const (
 	path = "/webhooks"
 )
+var (
+	Version = "dev"
+)
+
 type Config struct {
 	Telegram struct {
 		Chat  int64    `yaml:"chat"`
@@ -28,6 +32,7 @@ type Config struct {
 }
 
 func main() {
+	log.Printf("Gitlab telegram bot :%s", Version)
 	viper.SetConfigName("config") // name of config file (without extension)
 	viper.SetConfigType("yaml") // REQUIRED if the config file does not have the extension in the name
 	viper.AddConfigPath("/etc/telegram-gitlab/")   // path to look for the config file in
