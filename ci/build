@@ -1,0 +1,14 @@
+#!/bin/sh
+set -ex
+
+cd "$(dirname $0)"/..
+
+. ./ci/version
+
+echo Vendors downloading
+
+GOSUMDB=off go mod vendor -v
+
+CGO_ENABLED=0 go build -a -ldflags "-X main.Version=$VERSION -extldflags '-static -s'" -o telegram-gitlab main.go
+echo Built telegram-gitlab
+

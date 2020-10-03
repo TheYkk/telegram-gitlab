@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+
+
+if [ -n "$VERSION" ]; then
+	return
+fi
+# Get version by tag
+VERSION=$(git tag -l --contains HEAD | head -n 1)
+if [ -z "$VERSION" ]; then
+    # If tag not setted , get version from latest git commit
+    VERSION=$(git rev-parse --short HEAD)
+    VERSION="v$(date +"%y%m%d")-$VERSION"
+fi
+echo "export VERSION=$VERSION"
