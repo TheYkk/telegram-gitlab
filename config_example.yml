@@ -1,0 +1,7 @@
+telegram:
+  chat: -9999999
+  token: "XXXXX:XXXXXXXXXXXXXXXXXXX"
+
+server:
+  port: 8181
+  secret: "SUPER SERCRET"
