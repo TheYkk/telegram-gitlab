@@ -73,7 +73,7 @@ func main() {
 
 		if pay.ObjectAttributes.Status == "pending" {
 
-			rawMsgS := fmt.Sprintf("▶️ *%s* tarafından *%s* projesi için CI/CD çalıştırıldı.",pay.User.Name,pay.Project.Name)
+			rawMsgS := fmt.Sprintf("▶️ *%s* tarafından *%s* projesi için *CI/CD* çalıştırıldı.",pay.User.Name,pay.Project.Name)
 			msg := tgbotapi.NewMessage(conf.Telegram.Chat, rawMsgS)
 			msg.ParseMode = "markdown"
 
@@ -87,14 +87,16 @@ func main() {
 			for _,s :=range pay.Builds{
 				if s.Status == "success" {
 					rawMsg = fmt.Sprintf("✅ *%s* tarafından *%s* projesi için *%s* işi çalıştırıldı. İş başarıyla tamamlandı.",s.User.Name,pay.Project.Name,s.Name)
-				} else if s.Status == "running" {
-					rawMsg = fmt.Sprintf("▶️*%s* tarafından *%s* projesi için *%s* işi çalıştırıldı. Süreç devam ediyor, birazdan sonuç iletilecek.",s.User.Name,pay.Project.Name,s.Name)
 				}else if s.Status == "failed" {
 					rawMsg = fmt.Sprintf("❌ *%s* tarafından *%s* projesi için *%s* işi çalıştırıldı. İş başarısız oldu.",s.User.Name,pay.Project.Name,s.Name)
 				}else if s.Status == "skipped" {
 					rawMsg = fmt.Sprintf("⛔ *%s* tarafından *%s* projesi için çalıştırılan *%s* işi, bir önceki iş başarısız olduğu için durduruldu.",s.User.Name,pay.Project.Name,s.Name)
+				}else{
+					rawMsg = ""
 				}
-
+				if len(rawMsg) < 0 {
+					return
+				}
 				msg := tgbotapi.NewMessage(conf.Telegram.Chat, rawMsg)
 				msg.ParseMode = "markdown"
 				_, berr := bot.Send(msg)
